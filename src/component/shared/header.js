@@ -14,7 +14,7 @@ export default class header extends Component {
         this.username = "";
         this.rolename = "";
 
-        if(this.userData !== null || this.userData !== undefined)
+        if(this.userData !== null || typeof this.userData !== undefined)
         {
             this.username = this.userData.UserName;
             this.rolename = this.userData.Role;

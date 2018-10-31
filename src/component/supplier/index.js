@@ -15,7 +15,9 @@ class index extends Component {
     editHandler(clientid){
         console.log("Klik Edit");
         console.log(this.props.history);
-        this.props.history.push("/edit/" + clientid);
+        localStorage.setItem('idSupplier', clientid); 
+        console.log(localStorage.getItem('idSupplier')); 
+        this.props.history.push("/edit");
     }
 
     async getAllSupplier() {
@@ -37,6 +39,7 @@ class index extends Component {
 
     componentDidMount(){
         this.getAllSupplier();
+        localStorage.removeItem('idSupplier');
     }
 
     render() {

@@ -14,8 +14,35 @@ const supplier = {
             }
         };
 
-        console.log('Supplier : Axios User');
-        console.log(appconfig.base_url + appconfig.endpoints.client);
+        console.log('Supplier Get All : Axios User');
+        console.log(appconfig.base_url + appconfig.endpoints.supplier);
+        console.log(token);
+
+        try
+        {
+            let result = await axios(option);
+            console.log(result);
+            return result.data;
+        }
+        catch (error) 
+        {
+            return error.response.data;
+        }
+    },
+    GetDetailBySupplierIDHandler : async(id) => {
+        let token = localStorage.getItem(appconfig.secure_key.token);
+
+        let option = {
+            url: appconfig.base_url + appconfig.endpoints.supplier + id,
+            method: 'GET',
+            headers: {
+                'suproapptoken' : token,
+                'Content-Type' : 'application/json'
+            }
+        };
+
+        console.log('Supplier Get Detail : Axios User');
+        console.log(appconfig.base_url + appconfig.endpoints.supplier + id);
         console.log(token);
 
         try

@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import productapi from '../../handler/product';
+import supplierapi from '../../handler/supplier';
 
 class edit extends Component {
     constructor (props){
@@ -7,13 +8,37 @@ class edit extends Component {
 
         this.state={
             formdata:{
-                nama_client:'',
-                _id : ''
+                _id : "",
+                CompanyName : "",
+                ContactName : "",
+                ContactEmail : "",
+                ContactTitle : "",
+                Address : "",
+                City : "",
+                PostalCode : "",
+                Country : "",
+                Phone : "",
+                Fax : "",
+                IsDelete : "",
+                CreatedDate : "",
+                CreatedBy : "",
+                UpdateDate : "",
+                UpdateBy : ""
             },
             product : []
         };
 
         this.getAllProductBySupplierID = this.getAllProductBySupplierID.bind(this);
+        this.getDetailSupplierByID = this.getDetailSupplierByID.bind(this);
+        this.textHandler = this.textHandler.bind(this);
+    }
+
+    textHandler(e) {
+        let tmp = this.state.formdata;
+        tmp[e.target.name] = e.target.value;
+        this.setState({
+            formdata: tmp
+        });
     }
 
     async getAllProductBySupplierID(id) {
@@ -33,9 +58,44 @@ class edit extends Component {
         }
     }
 
+    async getDetailSupplierByID(id) {
+        let result = await supplierapi.GetDetailBySupplierIDHandler(id);
+
+        if(result.status === 200)
+        {
+            console.log('Supplier - Edit.js Debugger');
+            console.log(result.message);
+            this.setState({
+                formdata:{
+                    _id : result.message[0]._id,
+                    CompanyName : result.message[0].CompanyName,
+                    ContactName : result.message[0].ContactName,
+                    ContactEmail :result.message[0].ContactEmail,
+                    ContactTitle : result.message[0].ContactTitle,
+                    Address : result.message[0].Address,
+                    City : result.message[0].City,
+                    PostalCode : result.message[0].PostalCode,
+                    Country : result.message[0].Country,
+                    Phone : result.message[0].Phone,
+                    Fax : result.message[0].Fax === null? "" : result.message[0].Fax,
+                    IsDelete : result.message[0].IsDelete,
+                    CreatedDate : result.message[0].CreatedDate,
+                    CreatedBy : result.message[0].CreatedBy,
+                    UpdateDate : result.message[0].UpdateDate,
+                    UpdateBy : result.message[0].UpdateBy
+                }
+            });
+        }
+        else
+        {
+            console.log(result.message);
+        }
+    }
+
     componentDidMount(){
-        const { id } = this.props.match.params;
+        var id = localStorage.getItem('idSupplier');
         this.getAllProductBySupplierID(id);
+        this.getDetailSupplierByID(id);
     }
 
     render(){
@@ -65,45 +125,45 @@ class edit extends Component {
                                         <div className="col-xs-6">
                                             <div className="form-group">
                                                 <label>Company Name</label>
-                                                <input type="text" className="form-control" id="exampleInputEmail1" placeholder="Enter email"/>
+                                                <input type="text" className="form-control" id="CompanyName" name="CompanyName" value={this.state.formdata.CompanyName} onChange={this.textHandler} placeholder="Enter Company Name"/>
                                             </div>
                                             <div className="form-group">
                                                 <label>Contact Name</label>
-                                                <input type="text" className="form-control" id="exampleInputEmail1" placeholder="Enter email"/>
+                                                <input type="text" className="form-control" id="ContactName" name="ContactName" value={this.state.formdata.ContactName} onChange={this.textHandler} placeholder="Enter Contact Name"/>
                                             </div>
                                             <div className="form-group">
                                                 <label>Contact Email</label>
-                                                <input type="text" className="form-control" id="exampleInputEmail1" placeholder="Enter email"/>
+                                                <input type="text" className="form-control" id="ContactEmail" name="ContactEmail" value={this.state.formdata.ContactEmail} onChange={this.textHandler} placeholder="Enter Contact Email"/>
                                             </div>
                                             <div className="form-group">
                                                 <label>Contact Title</label>
-                                                <input type="text" className="form-control" id="exampleInputPassword1" placeholder="Password"/>
+                                                <input type="text" className="form-control" id="ContactTitle" name="ContactTitle" value={this.state.formdata.ContactTitle} onChange={this.textHandler} placeholder="Enter Contact Title"/>
                                             </div>
                                         </div>
                                         <div className="col-xs-6">
                                             <div className="form-group">
                                                 <label>Address</label>
-                                                <input type="text" className="form-control" id="exampleInputPassword1" placeholder="Password"/>
+                                                <input type="text" className="form-control" id="Address" name="Address" value={this.state.formdata.Address} onChange={this.textHandler} placeholder="Enter Address"/>
                                             </div>
                                             <div className="form-group">
                                                 <label>City</label>
-                                                <input type="text" className="form-control" id="exampleInputPassword1" placeholder="Password"/>
+                                                <input type="text" className="form-control" id="City" name="City" value={this.state.formdata.City} onChange={this.textHandler} placeholder="Enter City"/>
                                             </div>
                                             <div className="form-group">
                                                 <label>Postal Code</label>
-                                                <input type="text" className="form-control" id="exampleInputPassword1" placeholder="Password"/>
+                                                <input type="text" className="form-control" id="PostalCode" name="PostalCode" value={this.state.formdata.PostalCode} onChange={this.textHandler} placeholder="Enter Postal Code"/>
                                             </div>
                                             <div className="form-group">
                                                 <label>Country</label>
-                                                <input type="text" className="form-control" id="exampleInputPassword1" placeholder="Password"/>
+                                                <input type="text" className="form-control" id="Country" name="Country" value={this.state.formdata.Country} onChange={this.textHandler} placeholder="Enter Country"/>
                                             </div>
                                             <div className="form-group">
                                                 <label>Phone No</label>
-                                                <input type="password" className="form-control" id="exampleInputPassword1" placeholder="Password"/>
+                                                <input type="text" className="form-control" id="Phone" name="Phone" value={this.state.formdata.Phone} onChange={this.textHandler} placeholder="Enter Phone No"/>
                                             </div>
                                             <div className="form-group">
                                                 <label>Fax No</label>
-                                                <input type="text" className="form-control" id="exampleInputPassword1" placeholder="Password"/>
+                                                <input type="text" className="form-control" id="Fax" name="Fax" value={this.state.formdata.Fax} onChange={this.textHandler} placeholder="Enter Fax"/>
                                             </div>
                                         </div>
                                     </div>

@@ -5,13 +5,14 @@ import Dashboard from './home/dashboard';
 import Supplier from './supplier/index';
 import EditSupplier from './supplier/edit';
 import appconfig from '../config/app.config.json';
+import tokenExpired from '../common/checkTokenExpired';
 
 const Switcher = () => {
     return (
         <Switch>
             <PrivateRoute path = "/dashboard" component = { Dashboard } />
             <PrivateRoute path = "/supplier" component = { Supplier } />
-            <PrivateRoute path = "/edit/:id" component = { EditSupplier } />
+            <PrivateRoute path = "/edit" component = { EditSupplier } />
         </Switch>
     )
 }
@@ -19,8 +20,11 @@ const PrivateRoute = ({ component: Component, ...rest }) => (
     <Route
         {...rest}
         render = { props =>
-            localStorage.getItem(appconfig.secure_key.token) != null ? 
+            tokenExpired.isTokenExpired(localStorage.getItem(appconfig.secure_key.token)) === false ||
+            localStorage.getItem(appconfig.secure_key.token) != null ?
             (
+                console.log(tokenExpired.isTokenExpired(localStorage.getItem(appconfig.secure_key.token))),
+                console.log("Lagi di sini"),
                 <Component {...props} />
             ) :
             (
