@@ -1,15 +1,21 @@
 import React, { Component } from 'react';
 import supplierapi from '../../handler/supplier';
+import DatePicker from 'react-datepicker';
+import moment from 'moment';
+
+import 'react-datepicker/dist/react-datepicker.css';
 
 class index extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            client : []
+            client : [],
+            startDate : moment()
         };
 
         this.getAllSupplier = this.getAllSupplier.bind(this);
         this.editHandler = this.editHandler.bind(this);
+        this.handleChange = this.handleChange.bind(this);
     }
 
     editHandler(clientid){
@@ -18,6 +24,12 @@ class index extends Component {
         localStorage.setItem('idSupplier', clientid); 
         console.log(localStorage.getItem('idSupplier')); 
         this.props.history.push("/supplier/edit/" + clientid);
+    }
+
+    handleChange(date) {
+        this.setState({
+            startDate: date
+        });
     }
 
     async getAllSupplier() {
@@ -66,8 +78,39 @@ class index extends Component {
                                     <div className="box-tools">
                                         <div className="input-group input-group-sm">
                                             <div className="input-group-btn">
-                                                <button type="button" className="btn btn-primary" data-toggle="modal" data-target="#modal-create" style={{float : 'right'}}><i className="fa fa-plus"></i></button>
+                                                <button type="button" className="btn btn-primary" data-toggle="modal" data-target="#modal-create" style={{float : 'right'}}>Add</button>
                                             </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div className="box-header">
+                                    <div className="row">
+                                        <div className="col-md-3">
+                                            <input type="text" className="form-control" placeholder="Company Name"/>
+                                        </div>
+                                        <div className="col-md-3">
+                                            <input type="text" className="form-control" placeholder="Contact Name"/>
+                                        </div>
+                                        <div className="col-md-2">
+                                            <div class="input-group date">
+                                                 <div class="input-group-addon">
+                                                    <i class="fa fa-calendar"></i>
+                                                </div>
+                                                <DatePicker
+                                                    selected={this.state.startDate}
+                                                    onChange={this.handleChange}
+                                                    className="form-control pull-right"
+                                                    fixedHeight
+                                                    dateFormat="DD/MM/YYYY"
+                                                    id="datepicker"
+                                                />
+                                            </div>
+                                        </div>
+                                        <div className="col-md-3">
+                                            <input type="text" className="form-control" placeholder="Created By"/>
+                                        </div>
+                                        <div className="col-md-1">
+                                            <button type="button" className="btn btn-warning" style={{float : 'right'}}>Search</button>
                                         </div>
                                     </div>
                                 </div>
