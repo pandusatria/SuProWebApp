@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import supplierapi from '../../handler/supplier';
 import DatePicker from 'react-datepicker';
 import moment from 'moment';
-
 import 'react-datepicker/dist/react-datepicker.css';
 
 class index extends Component {
@@ -92,10 +91,7 @@ class index extends Component {
                                             <input type="text" className="form-control" placeholder="Contact Name"/>
                                         </div>
                                         <div className="col-md-2">
-                                            <div class="input-group date">
-                                                 <div class="input-group-addon">
-                                                    <i class="fa fa-calendar"></i>
-                                                </div>
+                                            <div className="input-group date">
                                                 <DatePicker
                                                     selected={this.state.startDate}
                                                     onChange={this.handleChange}
