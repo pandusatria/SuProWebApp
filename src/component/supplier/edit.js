@@ -60,30 +60,19 @@ class edit extends Component {
 
     async getDetailSupplierByID(id) {
         let result = await supplierapi.GetDetailBySupplierIDHandler(id);
+        let currSuplier = {};
 
         if(result.status === 200)
         {
             console.log('Supplier - Edit.js Debugger');
             console.log(result.message);
+
+            result.message.map((ele) => {
+                currSuplier = ele;
+            });
+
             this.setState({
-                formdata:{
-                    _id : result.message[0]._id,
-                    CompanyName : result.message[0].CompanyName,
-                    ContactName : result.message[0].ContactName,
-                    ContactEmail :result.message[0].ContactEmail,
-                    ContactTitle : result.message[0].ContactTitle,
-                    Address : result.message[0].Address,
-                    City : result.message[0].City,
-                    PostalCode : result.message[0].PostalCode,
-                    Country : result.message[0].Country,
-                    Phone : result.message[0].Phone,
-                    Fax : result.message[0].Fax === null? "" : result.message[0].Fax,
-                    IsDelete : result.message[0].IsDelete,
-                    CreatedDate : result.message[0].CreatedDate,
-                    CreatedBy : result.message[0].CreatedBy,
-                    UpdateDate : result.message[0].UpdateDate,
-                    UpdateBy : result.message[0].UpdateBy
-                }
+                formdata: currSuplier
             });
         }
         else

@@ -17,7 +17,7 @@ class index extends Component {
         console.log(this.props.history);
         localStorage.setItem('idSupplier', clientid); 
         console.log(localStorage.getItem('idSupplier')); 
-        this.props.history.push("/edit");
+        this.props.history.push("/supplier/edit/" + clientid);
     }
 
     async getAllSupplier() {

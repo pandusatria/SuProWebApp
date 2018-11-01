@@ -11,8 +11,8 @@ const Switcher = () => {
     return (
         <Switch>
             <PrivateRoute path = "/dashboard" component = { Dashboard } />
-            <PrivateRoute path = "/supplier" component = { Supplier } />
-            <PrivateRoute path = "/edit" component = { EditSupplier } />
+            <PrivateRoute path = "/supplier/list" component = { Supplier } />
+            <PrivateRoute path = "/supplier/edit/:id" component = { EditSupplier } />
         </Switch>
     )
 }
@@ -28,8 +28,7 @@ const PrivateRoute = ({ component: Component, ...rest }) => (
                 <Component {...props} />
             ) :
             (
-                <Redirect
-                    to = {{
+                <Redirect to = {{
                         pathname: "/",
                         state: { from: props.location }
                     }}

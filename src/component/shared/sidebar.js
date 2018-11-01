@@ -15,7 +15,7 @@ export default class sidebar extends Component {
                             </a>
                         </li>
                         <li className="active">
-                            <a href="/supplier">
+                            <a href="/supplier/list">
                                 <i className="fa fa-pie-chart"> </i> <span>Supplier</span>
                                 <span className="pull-right-container">
                                 </span>
