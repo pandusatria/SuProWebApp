@@ -9,13 +9,20 @@ class index extends Component {
         super(props);
         this.state = {
             client : [],
-            startDate : moment()
+            formdata : {
+                companyName : '',
+                contactName : '',
+                createdBy : ''
+            },
+            createdDate : ''
         };
 
         this.getAllSupplier = this.getAllSupplier.bind(this);
         this.editHandler = this.editHandler.bind(this);
-        this.handleChange = this.handleChange.bind(this);
-    }
+        this.handleChangeDate = this.handleChangeDate.bind(this);
+        this.textHandler = this.textHandler.bind(this);
+        this.searchSupplier = this.searchSupplier.bind(this);
+    };
 
     editHandler(clientid){
         console.log("Klik Edit");
@@ -25,9 +32,54 @@ class index extends Component {
         this.props.history.push("/supplier/edit/" + clientid);
     }
 
-    handleChange(date) {
+    handleChangeDate(date) {
+        let tmp = this.state.formdata;
         this.setState({
-            startDate: date
+            formdata: tmp,
+            createdDate: date
+        });
+    }
+
+    textHandler(e) {
+        let tmp = this.state.formdata;
+        tmp[e.target.name] = e.target.value;
+        this.setState({
+            formdata: tmp
+        });
+    }
+
+    async searchSupplier() {
+        let currentList = this.state.client;
+        let array = [];
+        console.log(this.state.formdata.companyName);
+        console.log(this.state.formdata.contactName);
+        console.log(this.state.formdata.createdBy);
+        console.log(this.state.createdDate._d);
+
+        for(let i = 0; i < currentList.length; i++)
+        {
+            if(currentList[i].CompanyName == this.state.formdata.companyName)
+            {
+                 array.push(currentList[i]);
+            }
+            else if(currentList[i].ContactName == this.state.formdata.contactName)
+            {
+                array.push(currentList[i]);
+            }
+            else if(currentList[i].CreatedDate == this.state.createdDate._d)
+            {
+                array.push(currentList[i]);
+            }
+            else if(currentList[i].CreatedBy == this.state.formdata.createdBy)
+            {
+                array.push(currentList[i]);
+            }
+        }
+
+        console.log(array);
+
+        this.setState({
+            client: array
         });
     }
 
@@ -82,34 +134,42 @@ class index extends Component {
                                         </div>
                                     </div>
                                 </div>
-                                <div className="box-header">
-                                    <div className="row">
-                                        <div className="col-md-3">
-                                            <input type="text" className="form-control" placeholder="Company Name"/>
-                                        </div>
-                                        <div className="col-md-3">
-                                            <input type="text" className="form-control" placeholder="Contact Name"/>
-                                        </div>
-                                        <div className="col-md-2">
-                                            <div className="input-group date">
-                                                <DatePicker
-                                                    selected={this.state.startDate}
-                                                    onChange={this.handleChange}
-                                                    className="form-control pull-right"
-                                                    fixedHeight
-                                                    dateFormat="DD/MM/YYYY"
-                                                    id="datepicker"
-                                                />
+                                <form>
+                                    <div className="box-header">
+                                        <div className="row">
+                                            <div className="col-md-3">
+                                                <input type="text" className="form-control" id="companyName" name="companyName" value={this.state.formdata.companyName} onChange={this.textHandler} placeholder="Company Name"/>
+                                            </div>
+                                            <div className="col-md-3">
+                                                <input type="text" className="form-control" id="contactName" name="contactName" value={this.state.formdata.contactName} onChange={this.textHandler} placeholder="Contact Name"/>
+                                            </div>
+                                            <div className="col-md-2">
+                                                <div className="input-group date">
+                                                    <DatePicker
+                                                        selected={this.state.createdDate}
+                                                        onChange={this.handleChangeDate}
+                                                        className="form-control pull-right"
+                                                        fixedHeight
+                                                        dateFormat="DD/MM/YYYY"
+                                                        id="datepicker"
+                                                        name="datepicker"
+                                                        showMonthDropdown
+                                                        showYearDropdown
+                                                        placeholderText = "Created Date"
+                                                    />
+                                                </div>
+                                            </div>
+                                            <div className="col-md-3">
+                                                <input type="text" className="form-control" id="createdBy" name="createdBy" value={this.state.formdata.createdBy} onChange={this.textHandler} placeholder="Created By"/>
+                                            </div>
+                                            <div className="col-md-1">
+                                                <div className="input-group-btn">
+                                                    <button type="button" className="btn btn-warning" onClick={this.searchSupplier} style={{float : 'right'}}>Search</button>
+                                                </div>
                                             </div>
                                         </div>
-                                        <div className="col-md-3">
-                                            <input type="text" className="form-control" placeholder="Created By"/>
-                                        </div>
-                                        <div className="col-md-1">
-                                            <button type="button" className="btn btn-warning" style={{float : 'right'}}>Search</button>
-                                        </div>
                                     </div>
-                                </div>
+                                </form>
                                 <div className="box-body table-responsive no-padding">
                                     <table className="table table-hover">
                                         <thead>

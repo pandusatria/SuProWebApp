@@ -83,8 +83,8 @@ class edit extends Component {
 
     componentDidMount(){
         var id = localStorage.getItem('idSupplier');
-        this.getAllProductBySupplierID(id);
         this.getDetailSupplierByID(id);
+        this.getAllProductBySupplierID(id);
     }
 
     render(){
