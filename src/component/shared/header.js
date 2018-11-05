@@ -13,8 +13,15 @@ export default class header extends Component {
         this.userData = JSON.parse(localStorage.getItem(appconfig.secure_key.userdata));
         this.username = "";
         this.rolename = "";
+        console.log("this.userData");
+        console.log(this.userData);
 
-        if(this.userData !== null || typeof this.userData !== undefined)
+        if(this.userData === null || typeof this.userData === undefined)
+        {
+            this.username = "";
+            this.rolename = "";
+        }
+        else
         {
             this.username = this.userData.UserName;
             this.rolename = this.userData.Role;

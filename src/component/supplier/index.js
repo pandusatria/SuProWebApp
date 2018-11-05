@@ -4,6 +4,10 @@ import DatePicker from 'react-datepicker';
 import moment from 'moment';
 import 'react-datepicker/dist/react-datepicker.css';
 
+import CreateSupplier from './create';
+import { AlertList } from "react-bs-notifier";
+
+
 class index extends Component {
     constructor(props) {
         super(props);
@@ -14,7 +18,12 @@ class index extends Component {
                 contactName : '',
                 createdBy : ''
             },
-            createdDate : ''
+            createdDate : '',
+            alertData: {
+                status: 99,
+                message: ''
+            },
+            alerts : []
         };
 
         this.getAllSupplier = this.getAllSupplier.bind(this);
@@ -22,7 +31,20 @@ class index extends Component {
         this.handleChangeDate = this.handleChangeDate.bind(this);
         this.textHandler = this.textHandler.bind(this);
         this.searchSupplier = this.searchSupplier.bind(this);
-    };
+        this.modalStatus = this.modalStatus.bind(this);
+        this.onAlertDismissed = this.onAlertDismissed.bind(this);
+    }
+
+    onAlertDismissed(alert) {
+		const alerts = this.state.alerts;
+		const idx = alerts.indexOf(alert);
+
+		if (idx >= 0) {
+			this.setState({
+				alerts: [...alerts.slice(0, idx), ...alerts.slice(idx + 1)]
+			});
+		}
+	}
 
     editHandler(clientid){
         console.log("Klik Edit");
@@ -46,6 +68,43 @@ class index extends Component {
         this.setState({
             formdata: tmp
         });
+    }
+
+    modalStatus(status, message) {
+        this.getAllClient();
+        this.setState({
+            alertData : {
+                status : status,
+                message : message
+            }
+        });
+
+        if(status === 1)
+        {
+            this.setState({
+                alerts : [{
+                    key : 1,
+                    type: "success",
+                    headline: "Good Job!",
+                    message: "Process successfully."
+                }]
+            });
+        }
+        else if(status === 0)
+        {
+            this.setState({
+                alerts : [{
+                    key : 2,
+                    type: "danger",
+                    headline: "Whoa!",
+                    message: "Process failed!"
+                }]
+            });
+        }
+
+        console.log("Check Modal Status");
+        console.log(this.state.alertData.status);
+        console.log(this.state.alertData.message);
     }
 
     async searchSupplier() {
@@ -302,6 +361,7 @@ class index extends Component {
             console.log(result.message);
         }
     }
+
     componentDidMount(){
         this.getAllSupplier();
         localStorage.removeItem('idSupplier');
@@ -321,6 +381,13 @@ class index extends Component {
                         <li className="active">List</li>
                     </ol>
                 </section>
+
+                {
+                    (this.state.alertData.status === 1) ? <AlertList alerts={this.state.alerts} timeout={60} onDismiss={this.onAlertDismissed.bind(this)}/> :''
+                }
+                {
+                    (this.state.alertData.status === 0) ? <AlertList alerts={this.state.alerts} timeout={60} onDismiss={this.onAlertDismissed.bind(this)}/> :''
+                }
 
                 <section className="content">
                     <div className="row">
@@ -377,7 +444,8 @@ class index extends Component {
                                         <thead>
                                             <tr>
                                                 <th>#</th>
-                                                <th>CompanyName</th>
+                                                <th>Supplier Code</th>
+                                                <th>Company Name</th>
                                                 <th>Contact Name</th>
                                                 <th>Address</th>
                                             </tr>
@@ -387,6 +455,7 @@ class index extends Component {
                                                 this.state.client.map((ele,x)=>
                                                     <tr key={ele._id}>
                                                         <td>{x+1}</td>
+                                                        <td>{ele.Code}</td>
                                                         <td>{ele.CompanyName}</td>
                                                         <td>{ele.ContactName}</td>
                                                         <td>{ele.FullAddress}</td>
@@ -405,6 +474,13 @@ class index extends Component {
                         </div>
                     </div>
                 </section>
+                <div className="modal fade" id="modal-create">
+                    <div className="modal-dialog">
+                            <CreateSupplier
+                                modalStatus = {this.modalStatus}
+                            />
+                    </div>
+                </div>
             </div>
         )
     }
