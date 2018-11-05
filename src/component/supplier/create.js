@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import supplierapi from '../../handler/supplier';
+import AutoGen from '../../common/autoGenerateNumber';
 
 class CreateSupplier extends Component{
     constructor (props){
@@ -57,7 +57,7 @@ class CreateSupplier extends Component{
     }
 
     async autoGenSupplier() {
-        let result = await supplierapi.createCodeSupplier();
+        let result = await AutoGen.createCodeSupplier();
         console.log("autoGenSupplier");
         console.log(result);
         this.setState({
