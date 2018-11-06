@@ -109,46 +109,79 @@ class index extends Component {
 
     async searchSupplier() {
         var query = [];
-        
+        var obj = {};
+
         console.log("search" + this.state.formdata);
         console.log(this.state.formdata.companyName);
         console.log(this.state.formdata.contactName);
         console.log(this.state.formdata.createdBy);
         console.log(this.state.createdDate._d);
 
-        query.push("{ is_delete : false }");
+        let CompanyName = this.state.formdata.companyName;
+        let ContactName = this.state.formdata.contactName;
+        let CreatedBy = this.state.formdata.createdBy;
+        let CreatedDate = moment(this.state.createdDate._d).format("YYYY-MM-DD");
+
+        query.push({
+            "id" : "IsDelete",
+            "value" : false
+        });
             
         if(this.state.formdata.companyName === '' || this.state.formdata.companyName === null || typeof this.state.formdata.companyName === undefined || this.state.formdata.companyName === undefined){
         } 
         else
         {
-            query.push("{ companyName : '" + this.state.formdata.companyName + "'}");
+            query.push({
+                "id" : "CompanyName",
+                "value" : CompanyName
+            });
         }
 
         if(this.state.formdata.contactName === '' || this.state.formdata.contactName === null || typeof this.state.formdata.contactName === undefined || this.state.formdata.contactName === undefined) { 
         } 
         else
         {
-            query.push("{ contactName : '" + this.state.formdata.contactName + "'}");
+            query.push({
+                "id" : "ContactName",
+                "value" : ContactName
+            });
         }
 
         if(this.state.formdata.createdBy === '' || this.state.formdata.createdBy === null || typeof this.state.formdata.createdBy === undefined || this.state.formdata.createdBy === undefined) {
         } 
         else
         {
-            query.push("{ createdBy : '" + this.state.formdata.createdBy + "'}");
+            query.push({
+                "id" : "CreatedBy",
+                "value" : CreatedBy
+            });
         }
 
         if(this.state.createdDate._d === '' || this.state.createdDate._d === null || typeof this.state.createdDate._d === undefined || this.state.createdDate._d === undefined) {
         } 
         else
         {
-            query.push("{ createdDate : '" + this.state.createdDate._d + "'}");
+            query.push({
+                "id" : "CreatedDate",
+                "value" : CreatedDate
+            });
         }
 
         console.log(query);
-
         let result = await supplierapi.GetAllSupplierHandlerSearch(query);
+
+        if(result.status === 200)
+        {
+            console.log('Client - Index.js Debugger : GetAllSupplierHandlerSearch');
+            console.log(result.message);
+            this.setState({
+                client: result.message
+            });
+        }
+        else
+        {
+            console.log(result.message);
+        }
     }
 
     async getAllSupplier() {
