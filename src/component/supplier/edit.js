@@ -27,12 +27,15 @@ class edit extends Component {
                 Code : "",
                 ContactNameTitleId : ""
             },
-            product : []
+            contactTitleNameList : [],
+            product : [],
+            errors: {}
         };
 
         this.getAllProductBySupplierID = this.getAllProductBySupplierID.bind(this);
         this.getDetailSupplierByID = this.getDetailSupplierByID.bind(this);
         this.textHandler = this.textHandler.bind(this);
+        this.getContactTitleName = this.getContactTitleName.bind(this);
     }
 
     textHandler(e) {
@@ -83,10 +86,31 @@ class edit extends Component {
         }
     }
 
+    async getContactTitleName(){
+        let result = await supplierapi.GetListContactTitleName();
+
+        if(result.status === 200)
+        {
+            console.log('Supplier - create.js Debugger');
+            console.log("getContactTitleName");
+            console.log(result);
+            console.log(result.message);
+
+            this.setState({
+                contactTitleNameList: result.message
+            });
+        }
+        else
+        {
+            console.log(result.message);
+        }
+    }
+
     componentDidMount(){
         var id = localStorage.getItem('idSupplier');
         this.getDetailSupplierByID(id);
         this.getAllProductBySupplierID(id);
+        this.getContactTitleName();
     }
 
     render(){
@@ -109,61 +133,77 @@ class edit extends Component {
                         <div className="col-xs-12">
                             <div className="box box-primary">
                                 <div className="box-header with-border">
-                                    <h3 className="box-title">Edit Supplier</h3>
+                                    <h3 className="box-title">Edit Supplier - {this.state.formdata.Code}</h3>
                                 </div>
                                 <form>
                                     <div className="box-body">
                                         <div className="col-xs-6">
                                             <div className="form-group">
+                                                <label>Supplier Code</label>
+                                                <input ref="Code" type="hidden" className="form-control" id="Code" name="Code" value={this.state.formdata.Code} onChange={this.textChanged}/>
+                                                <input type="text" className="form-control" placeholder="Supplier Code" value={this.state.formdata.Code} disabled/>
+                                            </div>
+                                            <div className="form-group">
                                                 <label>Company Name</label>
-                                                <input type="text" className="form-control" id="CompanyName" name="CompanyName" 
+                                                <input ref="CompanyName" type="text" className="form-control" id="CompanyName" name="CompanyName" 
                                                 value={this.state.formdata.CompanyName} onChange={this.textHandler} placeholder="Enter Company Name"/>
                                             </div>
                                             <div className="form-group">
+                                                <label>Contact Title Name</label>
+                                                <select style= {{ marginTop : '10px'}} ref="ContactNameTitleId" className="form-control" id="ContactNameTitleId" name="ContactNameTitleId" value={ this.state.formdata.ContactNameTitleId } onChange={ this.textChanged }>
+                                                    <option value="">Select Contact Title Name</option>
+                                                    {
+                                                        this.state.contactTitleNameList.map((elemen) =>
+                                                            <option key={ elemen._id } value={ elemen._id }> { elemen.Name } </option>
+                                                        )
+                                                    }
+                                                </select>
+                                            </div>
+                                            <div className="form-group">
                                                 <label>Contact Name</label>
-                                                <input type="text" className="form-control" id="ContactName" name="ContactName" 
+                                                <input type="text" ref="ContactName" className="form-control" id="ContactName" name="ContactName" 
                                                 value={this.state.formdata.ContactName} onChange={this.textHandler} placeholder="Enter Contact Name"/>
                                             </div>
                                             <div className="form-group">
                                                 <label>Contact Email</label>
-                                                <input type="text" className="form-control" id="ContactEmail" name="ContactEmail" 
+                                                <input type="text" ref="ContactEmail" className="form-control" id="ContactEmail" name="ContactEmail" 
                                                 value={this.state.formdata.ContactEmail} onChange={this.textHandler} placeholder="Enter Contact Email"/>
                                             </div>
                                             <div className="form-group">
                                                 <label>Contact Title</label>
-                                                <input type="text" className="form-control" id="ContactTitle" name="ContactTitle" 
+                                                <input type="text" ref="ContactTitle" className="form-control" id="ContactTitle" name="ContactTitle" 
                                                 value={this.state.formdata.ContactTitle} onChange={this.textHandler} placeholder="Enter Contact Title"/>
                                             </div>
                                         </div>
                                         <div className="col-xs-6">
                                             <div className="form-group">
                                                 <label>Address</label>
-                                                <input type="text" className="form-control" id="Address" name="Address" 
+                                                <input type="text" ref="Address" className="form-control" id="Address" name="Address" 
                                                 value={this.state.formdata.Address} onChange={this.textHandler} placeholder="Enter Address"/>
                                             </div>
                                             <div className="form-group">
                                                 <label>City</label>
-                                                <input type="text" className="form-control" id="City" name="City" 
+                                                <input type="text" ref="City" className="form-control" id="City" name="City" 
                                                 value={this.state.formdata.City} onChange={this.textHandler} placeholder="Enter City"/>
                                             </div>
                                             <div className="form-group">
                                                 <label>Postal Code</label>
-                                                <input type="text" className="form-control" id="PostalCode" name="PostalCode" 
+                                                <input type="text" ref="PostalCode" className="form-control" id="PostalCode" name="PostalCode" 
                                                 value={this.state.formdata.PostalCode} onChange={this.textHandler} placeholder="Enter Postal Code"/>
                                             </div>
                                             <div className="form-group">
                                                 <label>Country</label>
-                                                <input type="text" className="form-control" id="Country" name="Country" 
+                                                <input type="text" ref="Country" className="form-control" id="Country" name="Country" 
                                                 value={this.state.formdata.Country} onChange={this.textHandler} placeholder="Enter Country"/>
                                             </div>
                                             <div className="form-group">
                                                 <label>Phone No</label>
-                                                <input type="text" className="form-control" id="Phone" name="Phone" 
+                                                <input type="text" ref="Phone" className="form-control" id="Phone" name="Phone" 
                                                 value={this.state.formdata.Phone} onChange={this.textHandler} placeholder="Enter Phone No"/>
                                             </div>
                                             <div className="form-group">
                                                 <label>Fax No</label>
-                                                <input type="text" className="form-control" id="Fax" name="Fax" 
+                                                <input type="text" ref="Fax" className="form-control" id="Fax" name="Fax" 
                                                 value={this.state.formdata.Fax} onChange={this.textHandler} placeholder="Enter Fax"/>
                                             </div>
                                         </div>

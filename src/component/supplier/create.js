@@ -221,7 +221,7 @@ class CreateSupplier extends Component{
                                 </div>
                                 <div className="form-group">
                                     <label>Contact Title Name</label>
-                                    <select style= {{ marginTop : '10px'}} className="form-control" id="ContactNameTitleId" name="ContactNameTitleId" value={ this.state.formdata.ContactNameTitleId } onChange={ this.textChanged }>
+                                    <select style= {{ marginTop : '10px'}} ref="ContactNameTitleId" className="form-control" id="ContactNameTitleId" name="ContactNameTitleId" value={ this.state.formdata.ContactNameTitleId } onChange={ this.textChanged }>
                                         <option value="">Select Contact Title Name</option>
                                         {
                                             this.state.contactTitleNameList.map((elemen) =>

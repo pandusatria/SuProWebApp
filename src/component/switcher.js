@@ -12,7 +12,7 @@ const Switcher = () => {
         <Switch>
             <PrivateRoute path = "/dashboard" component = { Dashboard } />
             <PrivateRoute path = "/supplier/list" component = { Supplier } />
-            <PrivateRoute path = "/supplier/edit/:id" component = { EditSupplier } />
+            <PrivateRoute path = "/supplier/edit" component = { EditSupplier } />
         </Switch>
     )
 }

@@ -51,7 +51,7 @@ class index extends Component {
         console.log(this.props.history);
         localStorage.setItem('idSupplier', clientid); 
         console.log(localStorage.getItem('idSupplier')); 
-        this.props.history.push("/supplier/edit/" + clientid);
+        this.props.history.push("/supplier/edit");
     }
 
     handleChangeDate(date) {
