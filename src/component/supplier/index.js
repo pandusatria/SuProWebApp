@@ -70,8 +70,8 @@ class index extends Component {
         });
     }
 
-    modalStatus(status, message) {
-        this.getAllClient();
+    modalStatus(status, message, code) {
+        this.getAllSupplier();
         this.setState({
             alertData : {
                 status : status,
@@ -86,7 +86,7 @@ class index extends Component {
                     key : 1,
                     type: "success",
                     headline: "Good Job!",
-                    message: "Process successfully."
+                    message: "Process successfully with Supplier Code " + code
                 }]
             });
         }
@@ -97,7 +97,7 @@ class index extends Component {
                     key : 2,
                     type: "danger",
                     headline: "Whoa!",
-                    message: "Process failed!"
+                    message: "Process failed! with Supplier Code " + code
                 }]
             });
         }
@@ -108,241 +108,47 @@ class index extends Component {
     }
 
     async searchSupplier() {
-        let result = await supplierapi.GetAllSupplierHandler();
+        var query = [];
+        
+        console.log("search" + this.state.formdata);
+        console.log(this.state.formdata.companyName);
+        console.log(this.state.formdata.contactName);
+        console.log(this.state.formdata.createdBy);
+        console.log(this.state.createdDate._d);
 
-        if(result.status === 200)
-        {
-            console.log('Client - Index.js Debugger : getAllSupplierSearch');
-            console.log(result.message);
-
-            let currentList =  result.message;
-            console.log("Current List");
-            console.log(currentList);
-            let array = [];
-
-            console.log(this.state.formdata.companyName);
-            console.log(this.state.formdata.contactName);
-            console.log(this.state.formdata.createdBy);
-            console.log(this.state.createdDate._d);
-
-            let Name = this.state.formdata.companyName;
-            let Contact = this.state.formdata.contactName;
-            let By = this.state.formdata.createdBy;
-            let createdDate = this.state.createdDate._d;
-
-            let NullCompanyName = false;
-            let NullContactName = false;
-            let NullCreatedDate = false;
-            let NullCreatedBy = false;
-
-            if(typeof Name == "undefined" || Name == null || Name === '')
-            {
-                NullCompanyName = true;
-            }
-
-            if(typeof Contact == "undefined" || Contact == null || Contact === '')
-            {
-                NullContactName = true;
-            }
-
-            if(typeof By == "undefined" || By == null || By === '')
-            {
-                NullCreatedBy = true;
-            }
-
-            if(typeof createdDate == "undefined" || createdDate == null || createdDate === '')
-            {
-                NullCreatedDate = true;
-            }
-
-            console.log('NullCompanyName : ' + NullCompanyName);
-            console.log('NullContactName : ' + NullContactName);
-            console.log('NullCreatedDate : ' + NullCreatedDate);
-            console.log('NullCreatedBy : ' + NullCreatedBy);
-
-            for(let i = 0; i < currentList.length; i++)
-            {
-                if (!NullCompanyName)
-                {
-                    if (!NullContactName)
-                    {
-                        if (!NullCreatedDate)
-                        {
-                            if (!NullCreatedBy)
-                            {
-                                if(currentList[i].CompanyName === Name && 
-                                    currentList[i].ContactName === Contact && 
-                                    currentList[i].CreatedDate === createdDate && 
-                                    currentList[i].CreatedBy === By)
-                                {
-                                    array.push(currentList[i]);
-                                }
-                            }
-                            else
-                            {
-                                if(currentList[i].CompanyName === Name && 
-                                    currentList[i].ContactName === Contact && 
-                                    currentList[i].CreatedDate === createdDate)
-                                {
-                                    array.push(currentList[i]);
-                                }
-                            }
-                        }
-                        else
-                        {
-                            if (!NullCreatedBy)
-                            {
-                                if(currentList[i].CompanyName === Name && 
-                                    currentList[i].ContactName === Contact && 
-                                    currentList[i].CreatedBy === By)
-                                {
-                                    array.push(currentList[i]);
-                                }
-                            }
-                            else
-                            {
-                                if(currentList[i].CompanyName === Name && 
-                                    currentList[i].ContactName === Contact)
-                                {
-                                    array.push(currentList[i]);
-                                }
-                            }
-                        }
-                    }
-                    else
-                    {
-                        if (!NullCreatedDate)
-                        {
-                            if (!NullCreatedBy)
-                            {
-                                if(currentList[i].CompanyName === Name && 
-                                    currentList[i].CreatedDate === createdDate && 
-                                    currentList[i].CreatedBy === By)
-                                {
-                                    array.push(currentList[i]);
-                                }
-                            }
-                            else
-                            {
-                                if(currentList[i].CompanyName === Name && 
-                                    currentList[i].CreatedDate === createdDate)
-                                {
-                                    array.push(currentList[i]);
-                                }
-                            }
-                        }
-                        else
-                        {
-                            if (!NullCreatedBy)
-                            {
-                                if(currentList[i].CompanyName === Name && 
-                                    currentList[i].CreatedBy === By)
-                                {
-                                    array.push(currentList[i]);
-                                }
-                            }
-                            else
-                            {
-                                if(currentList[i].CompanyName === Name)
-                                {
-                                    array.push(currentList[i]);
-                                }
-                            }
-                        }
-                    }
-                }
-                else
-                {
-                    if (!NullContactName)
-                    {
-                        if (!NullCreatedDate)
-                        {
-                            if (!NullCreatedBy)
-                            {
-                                if(currentList[i].ContactName === Contact && 
-                                    currentList[i].CreatedDate === createdDate && 
-                                    currentList[i].CreatedBy === By)
-                                {
-                                    array.push(currentList[i]);
-                                }
-                            }
-                            else
-                            {
-                                if(currentList[i].ContactName === Contact && 
-                                    currentList[i].CreatedDate === createdDate)
-                                {
-                                    array.push(currentList[i]);
-                                }
-                            }
-                        }
-                        else
-                        {
-                            if (!NullCreatedBy)
-                            {
-                                if(currentList[i].ContactName === Contact && 
-                                    currentList[i].CreatedBy === By)
-                                {
-                                    array.push(currentList[i]);
-                                }
-                            }
-                            else
-                            {
-                                if(currentList[i].ContactName === Contact)
-                                {
-                                    array.push(currentList[i]);
-                                }
-                            }
-                        }
-                    }
-                    else
-                    {
-                        if (!NullCreatedDate)
-                        {
-                            if (!NullCreatedBy)
-                            {
-                                if(currentList[i].CreatedDate === createdDate && 
-                                    currentList[i].CreatedBy === By)
-                                {
-                                    array.push(currentList[i]);
-                                }
-                            }
-                            else
-                            {
-                                if(currentList[i].CreatedDate === createdDate)
-                                {
-                                    array.push(currentList[i]);
-                                }
-                            }
-                        }
-                        else
-                        {
-                            if (!NullCreatedBy)
-                            {
-                                if(currentList[i].CreatedBy === By)
-                                {
-                                    array.push(currentList[i]);
-                                }
-                            }
-                            else
-                            {
-                                array.push(currentList[i]);
-                            }
-                        }
-                    }
-                }
-            }
-
-            console.log(array);
-
-            this.setState({
-                client: array
-            });
-
-        }
+        query.push("{ is_delete : false }");
+            
+        if(this.state.formdata.companyName === '' || this.state.formdata.companyName === null || typeof this.state.formdata.companyName === undefined || this.state.formdata.companyName === undefined){
+        } 
         else
         {
-            console.log(result.message);
+            query.push("{ companyName : '" + this.state.formdata.companyName + "'}");
         }
+
+        if(this.state.formdata.contactName === '' || this.state.formdata.contactName === null || typeof this.state.formdata.contactName === undefined || this.state.formdata.contactName === undefined) { 
+        } 
+        else
+        {
+            query.push("{ contactName : '" + this.state.formdata.contactName + "'}");
+        }
+
+        if(this.state.formdata.createdBy === '' || this.state.formdata.createdBy === null || typeof this.state.formdata.createdBy === undefined || this.state.formdata.createdBy === undefined) {
+        } 
+        else
+        {
+            query.push("{ createdBy : '" + this.state.formdata.createdBy + "'}");
+        }
+
+        if(this.state.createdDate._d === '' || this.state.createdDate._d === null || typeof this.state.createdDate._d === undefined || this.state.createdDate._d === undefined) {
+        } 
+        else
+        {
+            query.push("{ createdDate : '" + this.state.createdDate._d + "'}");
+        }
+
+        console.log(query);
+
+        let result = await supplierapi.GetAllSupplierHandlerSearch(query);
     }
 
     async getAllSupplier() {
@@ -383,10 +189,10 @@ class index extends Component {
                 </section>
 
                 {
-                    (this.state.alertData.status === 1) ? <AlertList alerts={this.state.alerts} timeout={60} onDismiss={this.onAlertDismissed.bind(this)}/> :''
+                    (this.state.alertData.status === 1) ? <AlertList alerts={this.state.alerts} timeout={250} onDismiss={this.onAlertDismissed.bind(this)}/> :''
                 }
                 {
-                    (this.state.alertData.status === 0) ? <AlertList alerts={this.state.alerts} timeout={60} onDismiss={this.onAlertDismissed.bind(this)}/> :''
+                    (this.state.alertData.status === 0) ? <AlertList alerts={this.state.alerts} timeout={250} onDismiss={this.onAlertDismissed.bind(this)}/> :''
                 }
 
                 <section className="content">

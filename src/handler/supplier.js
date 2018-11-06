@@ -35,6 +35,37 @@ const supplier = {
             return error.response.data;
         }
     },
+    GetAllSupplierHandlerSearch : async(query) => {
+        let token = localStorage.getItem(appconfig.secure_key.token);
+
+        let option = {
+            url: appconfig.base_url + appconfig.endpoints.supplier + 'search',
+            method: 'POST',
+            headers: {
+                'suproapptoken' : token,
+                'Content-Type' : 'application/json'
+            },
+            data: {
+                filter: query
+            }
+        };
+
+        console.log('Supplier GetAllSupplierHandlerSearch : Axios User');
+        console.log(appconfig.base_url + appconfig.endpoints.supplier + 'search');
+        console.log(token);
+        console.log(option);
+
+        try
+        {
+            let result = await axios(option);
+            console.log(result);
+            return result.data;
+        }
+        catch (error) 
+        {
+            return error.response.data;
+        }
+    },
     GetDetailBySupplierIDHandler : async(id) => {
         let token = localStorage.getItem(appconfig.secure_key.token);
 
@@ -54,6 +85,35 @@ const supplier = {
         try
         {
             let result = await axios(option);
+            console.log(result);
+            return result.data;
+        }
+        catch (error) 
+        {
+            return error.response.data;
+        }
+    },
+    GetListContactTitleName : async() => {
+        let token = localStorage.getItem(appconfig.secure_key.token);
+
+        let option = {
+            url: appconfig.base_url + appconfig.endpoints.supplier + "gettitle",
+            method: 'GET',
+            headers: {
+                'suproapptoken' : token,
+                'Content-Type' : 'application/json'
+            }
+        };
+
+        console.log('Supplier GetListContactTitleName : Axios User');
+        console.log(appconfig.base_url + appconfig.endpoints.supplier + "gettitle");
+        console.log(token);
+        console.log(option);
+
+        try
+        {
+            let result = await axios(option);
+            console.log('Supplier GetListContactTitleName Result : Axios User');
             console.log(result);
             return result.data;
         }

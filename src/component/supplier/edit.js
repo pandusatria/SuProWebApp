@@ -23,7 +23,9 @@ class edit extends Component {
                 CreatedDate : "",
                 CreatedBy : "",
                 UpdateDate : "",
-                UpdateBy : ""
+                UpdateBy : "",
+                Code : "",
+                ContactNameTitleId : ""
             },
             product : []
         };
@@ -114,45 +116,55 @@ class edit extends Component {
                                         <div className="col-xs-6">
                                             <div className="form-group">
                                                 <label>Company Name</label>
-                                                <input type="text" className="form-control" id="CompanyName" name="CompanyName" value={this.state.formdata.CompanyName} onChange={this.textHandler} placeholder="Enter Company Name"/>
+                                                <input type="text" className="form-control" id="CompanyName" name="CompanyName" 
+                                                value={this.state.formdata.CompanyName} onChange={this.textHandler} placeholder="Enter Company Name"/>
                                             </div>
                                             <div className="form-group">
                                                 <label>Contact Name</label>
-                                                <input type="text" className="form-control" id="ContactName" name="ContactName" value={this.state.formdata.ContactName} onChange={this.textHandler} placeholder="Enter Contact Name"/>
+                                                <input type="text" className="form-control" id="ContactName" name="ContactName" 
+                                                value={this.state.formdata.ContactName} onChange={this.textHandler} placeholder="Enter Contact Name"/>
                                             </div>
                                             <div className="form-group">
                                                 <label>Contact Email</label>
-                                                <input type="text" className="form-control" id="ContactEmail" name="ContactEmail" value={this.state.formdata.ContactEmail} onChange={this.textHandler} placeholder="Enter Contact Email"/>
+                                                <input type="text" className="form-control" id="ContactEmail" name="ContactEmail" 
+                                                value={this.state.formdata.ContactEmail} onChange={this.textHandler} placeholder="Enter Contact Email"/>
                                             </div>
                                             <div className="form-group">
                                                 <label>Contact Title</label>
-                                                <input type="text" className="form-control" id="ContactTitle" name="ContactTitle" value={this.state.formdata.ContactTitle} onChange={this.textHandler} placeholder="Enter Contact Title"/>
+                                                <input type="text" className="form-control" id="ContactTitle" name="ContactTitle" 
+                                                value={this.state.formdata.ContactTitle} onChange={this.textHandler} placeholder="Enter Contact Title"/>
                                             </div>
                                         </div>
                                         <div className="col-xs-6">
                                             <div className="form-group">
                                                 <label>Address</label>
-                                                <input type="text" className="form-control" id="Address" name="Address" value={this.state.formdata.Address} onChange={this.textHandler} placeholder="Enter Address"/>
+                                                <input type="text" className="form-control" id="Address" name="Address" 
+                                                value={this.state.formdata.Address} onChange={this.textHandler} placeholder="Enter Address"/>
                                             </div>
                                             <div className="form-group">
                                                 <label>City</label>
-                                                <input type="text" className="form-control" id="City" name="City" value={this.state.formdata.City} onChange={this.textHandler} placeholder="Enter City"/>
+                                                <input type="text" className="form-control" id="City" name="City" 
+                                                value={this.state.formdata.City} onChange={this.textHandler} placeholder="Enter City"/>
                                             </div>
                                             <div className="form-group">
                                                 <label>Postal Code</label>
-                                                <input type="text" className="form-control" id="PostalCode" name="PostalCode" value={this.state.formdata.PostalCode} onChange={this.textHandler} placeholder="Enter Postal Code"/>
+                                                <input type="text" className="form-control" id="PostalCode" name="PostalCode" 
+                                                value={this.state.formdata.PostalCode} onChange={this.textHandler} placeholder="Enter Postal Code"/>
                                             </div>
                                             <div className="form-group">
                                                 <label>Country</label>
-                                                <input type="text" className="form-control" id="Country" name="Country" value={this.state.formdata.Country} onChange={this.textHandler} placeholder="Enter Country"/>
+                                                <input type="text" className="form-control" id="Country" name="Country" 
+                                                value={this.state.formdata.Country} onChange={this.textHandler} placeholder="Enter Country"/>
                                             </div>
                                             <div className="form-group">
                                                 <label>Phone No</label>
-                                                <input type="text" className="form-control" id="Phone" name="Phone" value={this.state.formdata.Phone} onChange={this.textHandler} placeholder="Enter Phone No"/>
+                                                <input type="text" className="form-control" id="Phone" name="Phone" 
+                                                value={this.state.formdata.Phone} onChange={this.textHandler} placeholder="Enter Phone No"/>
                                             </div>
                                             <div className="form-group">
                                                 <label>Fax No</label>
-                                                <input type="text" className="form-control" id="Fax" name="Fax" value={this.state.formdata.Fax} onChange={this.textHandler} placeholder="Enter Fax"/>
+                                                <input type="text" className="form-control" id="Fax" name="Fax" 
+                                                value={this.state.formdata.Fax} onChange={this.textHandler} placeholder="Enter Fax"/>
                                             </div>
                                         </div>
                                     </div>
