@@ -82,7 +82,6 @@ class CreateSupplier extends Component{
 
         if(typeof fields.ContactEmail === "undefined" || fields.ContactEmail === null ||  fields.ContactEmail === "")
         {
-           
         }
         else
         {
@@ -94,7 +93,6 @@ class CreateSupplier extends Component{
 
         if(typeof fields.Phone === "undefined" || fields.Phone === null ||  fields.Phone === "")
         {
-
         }
         else
         {
@@ -106,7 +104,6 @@ class CreateSupplier extends Component{
 
         if(typeof fields.Fax === "undefined" || fields.Fax === null ||  fields.Fax === "")
         {
-
         }
         else
         {
@@ -132,13 +129,14 @@ class CreateSupplier extends Component{
         if(this.handleValidation())
         {
             console.log(this.state.formdata);
-            // let result = await supplierapi.InsertNewSupplier(this.state.formdata);
+            
+            let result = await supplierapi.InsertNewSupplier(this.state.formdata);
 
             // Purpose Test
-            let result = {
-                status : 200,
-                message : "OK"
-            }
+            // let result = {
+            //   status : 200,
+            //    message : "OK"
+            // }
 
             if(result.status === 200)
             {
@@ -216,12 +214,12 @@ class CreateSupplier extends Component{
                                 <div className="form-group">
                                     <label>Company Name</label>
                                     <input ref="CompanyName" type="text" className="form-control" placeholder="Company Name" 
-                                    id="CompanyName" name="CompanyName" value={this.state.formdata.CompanyName} onChange={this.textChanged} required/>
+                                    id="CompanyName" name="CompanyName" value={ this.state.formdata.CompanyName } onChange={ this.textChanged } required/>
                                     <span className="help-block" style={{color: "red"}}>{this.state.errors.CompanyName}</span>
                                 </div>
                                 <div className="form-group">
                                     <label>Contact Title Name</label>
-                                    <select style= {{ marginTop : '10px'}} ref="ContactNameTitleId" className="form-control" id="ContactNameTitleId" name="ContactNameTitleId" value={ this.state.formdata.ContactNameTitleId } onChange={ this.textChanged }>
+                                    <select style= {{ marginTop : '10px'}} ref="ContactNameTitleId" className="form-control" id="ContactNameTitleId" name="ContactNameTitleId" value={this.state.formdata.ContactNameTitleId} onChange={this.textChanged}>
                                         <option value="">Select Contact Title Name</option>
                                         {
                                             this.state.contactTitleNameList.map((elemen) =>

@@ -5,6 +5,7 @@ import moment from 'moment';
 import 'react-datepicker/dist/react-datepicker.css';
 
 import CreateSupplier from './create';
+import DetailSupplier from './detail';
 import { AlertList } from "react-bs-notifier";
 
 
@@ -12,7 +13,8 @@ class index extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            client : [],
+            supplier : [],
+            currentSupplier: {},
             formdata : {
                 companyName : '',
                 contactName : '',
@@ -33,6 +35,7 @@ class index extends Component {
         this.searchSupplier = this.searchSupplier.bind(this);
         this.modalStatus = this.modalStatus.bind(this);
         this.onAlertDismissed = this.onAlertDismissed.bind(this);
+        this.detailModalHandler = this.detailModalHandler.bind(this);
     }
 
     onAlertDismissed(alert) {
@@ -44,7 +47,21 @@ class index extends Component {
 				alerts: [...alerts.slice(0, idx), ...alerts.slice(idx + 1)]
 			});
 		}
-	}
+    }
+    
+    detailModalHandler(supplierid) {
+        let tmp = {};
+
+        this.state.supplier.map((ele) => {
+            if (supplierid === ele._id) {
+                tmp = ele;
+            }
+        });
+
+        this.setState({
+            currentSupplier : tmp
+        });
+    }
 
     editHandler(clientid){
         console.log("Klik Edit");
@@ -192,7 +209,7 @@ class index extends Component {
             console.log('Client - Index.js Debugger : getAllSupplier');
             console.log(result.message);
             this.setState({
-                client: result.message
+                supplier: result.message
             });
         }
         else
@@ -291,7 +308,7 @@ class index extends Component {
                                         </thead>
                                         <tbody>
                                             {
-                                                this.state.client.map((ele,x)=>
+                                                this.state.supplier.map((ele,x)=>
                                                     <tr key={ele._id}>
                                                         <td>{x+1}</td>
                                                         <td>{ele.Code}</td>
@@ -299,7 +316,7 @@ class index extends Component {
                                                         <td>{ele.ContactName}</td>
                                                         <td>{ele.FullAddress}</td>
                                                         <td>
-                                                            <button type="button" className="btn btn-info"  data-toggle="modal" data-target="#modal-view" style={{marginRight : '5px'}}><i className="fa fa-search"></i></button>
+                                                            <button type="button" className="btn btn-info" onClick = {() => {this.detailModalHandler(ele._id)}} data-toggle="modal" data-target="#modal-view" style={{marginRight : '5px'}}><i className="fa fa-search"></i></button>
                                                             <button type="button" className="btn btn-success" onClick = {() => {this.editHandler(ele._id)}} style={{marginRight : '5px'}}><i className="fa fa-edit"></i></button>
                                                             <button type="button" className="btn btn-danger" data-toggle="modal" data-target="#modal-delete"><i className="fa fa-trash"></i></button>
                                                         </td>
@@ -317,6 +334,13 @@ class index extends Component {
                     <div className="modal-dialog">
                             <CreateSupplier
                                 modalStatus = {this.modalStatus}
+                            />
+                    </div>
+                </div>
+                <div className="modal fade" id="modal-view">
+                    <div className="modal-dialog">
+                            <DetailSupplier
+                                Supplier = {this.state.currentSupplier}
                             />
                     </div>
                 </div>

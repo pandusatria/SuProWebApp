@@ -1,6 +1,12 @@
 import axios from 'axios';
 import appconfig from '../config/app.config.json';
 
+Number.prototype.pad = function (size) {
+    var s = String(this);
+    while (s.length < (size || 2)) { s = "0" + s; }
+    return s;
+};
+
 const AutoGen = {
     createCodeSupplier : async() => {
         let token = localStorage.getItem(appconfig.secure_key.token);

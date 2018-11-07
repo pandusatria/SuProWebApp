@@ -1,12 +1,6 @@
 import axios from 'axios';
 import appconfig from '../config/app.config.json';
 
-Number.prototype.pad = function (size) {
-    var s = String(this);
-    while (s.length < (size || 2)) { s = "0" + s; }
-    return s;
-};
-
 const supplier = {
     GetAllSupplierHandler : async() => {
         let token = localStorage.getItem(appconfig.secure_key.token);
@@ -114,6 +108,56 @@ const supplier = {
         {
             let result = await axios(option);
             console.log('Supplier GetListContactTitleName Result : Axios User');
+            console.log(result);
+            return result.data;
+        }
+        catch (error) 
+        {
+            return error.response.data;
+        }
+    },
+    InsertNewSupplier : async (formdata) => {
+        let token = localStorage.getItem(appconfig.secure_key.token);
+
+        let option = {
+            url: appconfig.base_url + appconfig.endpoints.supplier,
+            method: 'POST',
+            headers: {
+                'suproapptoken' : token,
+                'Content-Type' : 'application/json'
+            },
+            data: {
+                CompanyName : formdata.CompanyName,
+                ContactName : formdata.ContactName,
+                ContactEmail : formdata.ContactEmail,
+                ContactTitle : formdata.ContactTitle,
+                Address : formdata.Address,
+                City : formdata.City,
+                PostalCode : formdata.PostalCode,
+                Country : formdata.Country,
+                Phone : formdata.Phone,
+                Fax : formdata.Fax,
+                Code : formdata.Code,
+                ContactNameTitleId : formdata.ContactNameTitleId
+            }
+        };
+
+        console.log('Supplier Create New : Axios User');
+
+        console.log('Formdata');
+        console.log(formdata);
+
+        console.log('Option : Data');
+        console.log(option.data);
+
+        console.log('Supplier GetListContactTitleName : Axios User');
+        console.log(appconfig.base_url + appconfig.endpoints.supplier);
+        console.log(option);
+
+        try
+        {
+            let result = await axios(option);
+            console.log("Result From Axios : ");
             console.log(result);
             return result.data;
         }
