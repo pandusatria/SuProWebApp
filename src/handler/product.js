@@ -15,7 +15,7 @@ const product = {
         };
 
         console.log('Product : Axios User');
-        console.log(appconfig.base_url + appconfig.endpoints.product);
+        console.log(appconfig.base_url + appconfig.endpoints.product + 'bysupplier/' + id);
         console.log(token);
 
         try

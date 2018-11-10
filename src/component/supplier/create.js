@@ -129,7 +129,7 @@ class CreateSupplier extends Component{
         if(this.handleValidation())
         {
             console.log(this.state.formdata);
-            
+
             let result = await supplierapi.InsertNewSupplier(this.state.formdata);
 
             // Purpose Test

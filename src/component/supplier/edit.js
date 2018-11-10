@@ -2,7 +2,23 @@ import React, { Component } from 'react';
 import productapi from '../../handler/product';
 import supplierapi from '../../handler/supplier';
 
+// React Table
+import ReactTable from "react-table";
+import "react-table/react-table.css";
+
 class edit extends Component {
+
+    idx = 0;
+
+    ProductModel = {
+        _id             :  0,
+        ProductName     :  "",
+        CategoryName    :  "",
+        QuantityPerUnit :  "",
+        UnitPrice       :  0,
+        UnitInStock     :  0
+    };
+
     constructor (props){
         super(props)
 
@@ -25,17 +41,18 @@ class edit extends Component {
                 UpdateDate : "",
                 UpdateBy : "",
                 Code : "",
-                ContactNameTitleId : ""
+                ContactNameTitleId : "",
+                DetailProduct : []
             },
             contactTitleNameList : [],
-            product : [],
             errors: {}
         };
 
-        this.getAllProductBySupplierID = this.getAllProductBySupplierID.bind(this);
-        this.getDetailSupplierByID = this.getDetailSupplierByID.bind(this);
         this.textHandler = this.textHandler.bind(this);
         this.getContactTitleName = this.getContactTitleName.bind(this);
+        this.getDetailSupplierAllProductBySupplierID = this.getDetailSupplierAllProductBySupplierID.bind(this);
+        this.deleteRow = this.deleteRow.bind(this);
+        this.addRow = this.addRow.bind(this);
     }
 
     textHandler(e) {
@@ -46,30 +63,47 @@ class edit extends Component {
         });
     }
 
-    async getAllProductBySupplierID(id) {
-        let result = await productapi.GetAllProductBySupplierIDHandler(id);
-
-        if(result.status === 200)
-        {
-            console.log('Product - Edit.js Debugger');
-            console.log(result.message);
-            this.setState({
-                product: result.message
-            });
-        }
-        else
-        {
-            console.log(result.message);
-        }
+    deleteRow(index) {
+        var currProduct = [...this.state.formdata.DetailProduct];
+        const selectIdx = currProduct.findIndex(u => u._id === index);
+        currProduct.splice(selectIdx, 1);
+        this.setState({
+            formdata: {
+                DetailProduct : currProduct
+            }
+        });
     }
 
-    async getDetailSupplierByID(id) {
-        let result = await supplierapi.GetDetailBySupplierIDHandler(id);
+    addRow() {
+        var currProduct = [...this.state.formdata.DetailProduct];
+        let _id = this.idx + 1;
+        this.idx = this.idx + 1;
+
+        var newProduct = {
+            _id             :  _id,
+            ProductName     :  "",
+            CategoryName    :  "",
+            QuantityPerUnit :  "",
+            UnitPrice       :  0,
+            UnitInStock     :  0
+        };
+
+        currProduct.push(newProduct);
+        this.setState({
+            formdata: {
+                DetailProduct : currProduct
+            }
+        });
+    }
+
+    async getDetailSupplierAllProductBySupplierID(id) {
+        let result = await supplierapi.GetDetailSupplierAllProductBySupplierID(id);
         let currSuplier = {};
 
         if(result.status === 200)
         {
             console.log('Supplier - Edit.js Debugger');
+            console.log("getProductBySupplierID");
             console.log(result.message);
 
             result.message.map((ele) => {
@@ -91,7 +125,7 @@ class edit extends Component {
 
         if(result.status === 200)
         {
-            console.log('Supplier - create.js Debugger');
+            console.log('Supplier - edit.js Debugger');
             console.log("getContactTitleName");
             console.log(result);
             console.log(result.message);
@@ -107,9 +141,9 @@ class edit extends Component {
     }
 
     componentDidMount(){
+        console.log('Supplier - componentDidMount Debugger');
         var id = localStorage.getItem('idSupplier');
-        this.getDetailSupplierByID(id);
-        this.getAllProductBySupplierID(id);
+        this.getDetailSupplierAllProductBySupplierID(id);
         this.getContactTitleName();
     }
 
@@ -223,45 +257,55 @@ class edit extends Component {
                                     <div className="box-tools">
                                         <div className="input-group input-group-sm">
                                             <div className="input-group-btn">
-                                                <button type="button" className="btn btn-primary" data-toggle="modal" data-target="#modal-create" style={{float : 'right'}}><i className="fa fa-plus"></i></button>
+                                                <button type="button" className="btn btn-primary" onClick = {() => {this.addRow()}} style={{float : 'right'}}><i className="fa fa-plus"></i></button>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
+                                <br></br>
                                 <div className="box-body table-responsive no-padding">
-                                    <table className="table table-hover">
-                                        <thead>
-                                            <tr>
-                                                <th>#</th>
-                                                <th>Product Name</th>
-                                                <th>Supplier Name</th>
-                                                <th>Category Name</th>
-                                                <th>Quantity Per Unit</th>
-                                                <th>Unit Price</th>
-                                                <th>Unit In Stock</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            { 
-                                                this.state.product.map((ele,x)=>
-                                                    <tr key={ele._id}>
-                                                        <td>{x+1}</td>
-                                                        <td>{ele.ProductName}</td>
-                                                        <td>{ele.SupplierName}</td>
-                                                        <td>{ele.CategoryName}</td>
-                                                        <td>{ele.QuantityPerUnit}</td>
-                                                        <td>{ele.UnitPrice}</td>
-                                                        <td>{ele.UnitInStock}</td>
-                                                        <td>
-                                                            <button type="button" className="btn btn-info"  data-toggle="modal" data-target="#modal-view" style={{marginRight : '5px'}}><i className="fa fa-search"></i></button>
-                                                            <button type="button" className="btn btn-success" onClick = {() => {this.editHandler(ele._id)}} style={{marginRight : '5px'}}><i className="fa fa-edit"></i></button>
-                                                            <button type="button" className="btn btn-danger" data-toggle="modal" data-target="#modal-delete"><i className="fa fa-trash"></i></button>
-                                                        </td>
-                                                    </tr>
-                                                )
-                                            }
-                                        </tbody>
-                                    </table>
+                                <ReactTable
+                                    data ={ this.state.formdata.DetailProduct }
+                                    columns={[
+                                        {
+                                            Header: "Product Name",
+                                            id: "ProductName",
+                                            accessor: "ProductName"
+                                        },
+                                        {
+                                            Header: "Category Name",
+                                            id: "CategoryName",
+                                            accessor: "CategoryName"
+                                        },
+                                        {
+                                            Header: "Quantity Per Unit",
+                                            id: "QuantityPerUnit",
+                                            accessor: "QuantityPerUnit"
+                                        },
+                                        {
+                                            Header: "Unit Price",
+                                            id: "UnitPrice",
+                                            accessor: "UnitPrice"
+                                        },
+                                        {
+                                            Header: "Unit In Stock",
+                                            id: "UnitInStock",
+                                            accessor: "UnitInStock"
+                                        },
+                                        {
+                                            Header: "Action",
+                                            id : "_id",
+                                            Cell: row => (
+                                                <div>
+                                                     <button type="button" className="btn btn-success"style={{marginRight : '5px'}}><i className="fa fa-edit"></i></button>
+                                                     <button type="button" className="btn btn-danger" onClick = {() => {this.deleteRow(this.id)}}><i className="fa fa-trash"></i></button>
+                                                </div>
+                                            )
+                                        }
+                                    ]}
+                                    defaultPageSize={5}
+                                    className="-striped -highlight"
+                                />
                                 </div>
                                 <div className="box-footer">
                                 </div>

@@ -24,7 +24,7 @@ const supplier = {
             console.log(result);
             return result.data;
         }
-        catch (error) 
+        catch (error)
         {
             return error.response.data;
         }
@@ -55,7 +55,7 @@ const supplier = {
             console.log(result);
             return result.data;
         }
-        catch (error) 
+        catch (error)
         {
             return error.response.data;
         }
@@ -82,7 +82,7 @@ const supplier = {
             console.log(result);
             return result.data;
         }
-        catch (error) 
+        catch (error)
         {
             return error.response.data;
         }
@@ -111,7 +111,34 @@ const supplier = {
             console.log(result);
             return result.data;
         }
-        catch (error) 
+        catch (error)
+        {
+            return error.response.data;
+        }
+    },
+    GetDetailSupplierAllProductBySupplierID : async(id) => {
+        let token = localStorage.getItem(appconfig.secure_key.token);
+
+        let option = {
+            url: appconfig.base_url + appconfig.endpoints.supplier + 'getsupplierproduct/' + id,
+            method: 'GET',
+            headers: {
+                'suproapptoken' : token,
+                'Content-Type' : 'application/json'
+            }
+        };
+
+        console.log('SupplierGetProductBySupplierID : Axios User');
+        console.log(appconfig.base_url + appconfig.endpoints.supplier + 'getproduct/' + id);
+        console.log(token);
+
+        try
+        {
+            let result = await axios(option);
+            console.log(result);
+            return result.data;
+        }
+        catch (error)
         {
             return error.response.data;
         }
@@ -161,7 +188,7 @@ const supplier = {
             console.log(result);
             return result.data;
         }
-        catch (error) 
+        catch (error)
         {
             return error.response.data;
         }

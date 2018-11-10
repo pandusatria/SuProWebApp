@@ -48,7 +48,7 @@ class index extends Component {
 			});
 		}
     }
-    
+
     detailModalHandler(supplierid) {
         let tmp = {};
 
@@ -66,8 +66,8 @@ class index extends Component {
     editHandler(clientid){
         console.log("Klik Edit");
         console.log(this.props.history);
-        localStorage.setItem('idSupplier', clientid); 
-        console.log(localStorage.getItem('idSupplier')); 
+        localStorage.setItem('idSupplier', clientid);
+        console.log(localStorage.getItem('idSupplier'));
         this.props.history.push("/supplier/edit");
     }
 
@@ -143,9 +143,9 @@ class index extends Component {
             "id" : "IsDelete",
             "value" : false
         });
-            
+
         if(this.state.formdata.companyName === '' || this.state.formdata.companyName === null || typeof this.state.formdata.companyName === undefined || this.state.formdata.companyName === undefined){
-        } 
+        }
         else
         {
             query.push({
@@ -155,7 +155,7 @@ class index extends Component {
         }
 
         if(this.state.formdata.contactName === '' || this.state.formdata.contactName === null || typeof this.state.formdata.contactName === undefined || this.state.formdata.contactName === undefined) { 
-        } 
+        }
         else
         {
             query.push({
@@ -165,7 +165,7 @@ class index extends Component {
         }
 
         if(this.state.formdata.createdBy === '' || this.state.formdata.createdBy === null || typeof this.state.formdata.createdBy === undefined || this.state.formdata.createdBy === undefined) {
-        } 
+        }
         else
         {
             query.push({
@@ -175,7 +175,7 @@ class index extends Component {
         }
 
         if(this.state.createdDate._d === '' || this.state.createdDate._d === null || typeof this.state.createdDate._d === undefined || this.state.createdDate._d === undefined) {
-        } 
+        }
         else
         {
             query.push({
