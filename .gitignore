@@ -4,6 +4,7 @@
 /node_modules
 /.pnp
 .pnp.js
+.bak_20181010
 
 # testing
 /coverage

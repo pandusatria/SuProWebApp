@@ -192,6 +192,57 @@ const supplier = {
         {
             return error.response.data;
         }
+    },
+    EditSupplierProduct : async (formdata, id) => {
+        let token = localStorage.getItem(appconfig.secure_key.token);
+
+        let option = {
+            url: appconfig.base_url + appconfig.endpoints.supplier + id,
+            method: 'PUT',
+            headers: {
+                'suproapptoken' : token,
+                'Content-Type' : 'application/json'
+            },
+            data: {
+                CompanyName : formdata.CompanyName,
+                ContactName : formdata.ContactName,
+                ContactEmail : formdata.ContactEmail,
+                ContactTitle : formdata.ContactTitle,
+                Address : formdata.Address,
+                City : formdata.City,
+                PostalCode : formdata.PostalCode,
+                Country : formdata.Country,
+                Phone : formdata.Phone,
+                Fax : formdata.Fax,
+                Code : formdata.Code,
+                ContactNameTitleId : formdata.ContactNameTitleId,
+                DetailProduct : formdata.DetailProduct
+            }
+        };
+
+        console.log('Supplier Update Supplier : Axios User');
+
+        console.log('Formdata');
+        console.log(formdata);
+
+        console.log('Option : Data');
+        console.log(option.data);
+
+        console.log('Supplier GetListContactTitleName : Axios User');
+        console.log(appconfig.base_url + appconfig.endpoints.supplier);
+        console.log(option);
+
+        try
+        {
+            let result = await axios(option);
+            console.log("Result From Axios : ");
+            console.log(result);
+            return result.data;
+        }
+        catch (error)
+        {
+            return error.response.data;
+        }
     }
 }
 
